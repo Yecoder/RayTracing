@@ -4,7 +4,7 @@ from math import  *
 
 class System4f(MatrixGroup):
     """
-    The matrix group of a 4f system can be defined using this function.
+    The matrix group of a 4f system (i.e. a relay) can be defined using this function.
 
     Parameters
     ----------
@@ -20,6 +20,20 @@ class System4f(MatrixGroup):
         The label for the 4f system
 
     """
+    def __init__(self, *args, **kwargs):
+        namedArguments = kwargs.items()
+        namedVariables = namedArguments.keys()
+        if namedVariables.contains('lens1') and namedVariables.contains('lens2'):
+            elements.append(Space(d=f1))
+            elements.append(Lens(f=f1, diameter=diameter1))
+            elements.append(Space(d=f1))
+            elements.append(Space(d=f2))
+            elements.append(Lens(f=f2, diameter=diameter2))
+            elements.append(Space(d=f2))
+            super(Telescope, self).__init__(elements=elements, label=label)
+            
+
+
     def __init__(self,f1, f2, diameter1=float('+Inf'), diameter2=float('+Inf'), label=''):
         elements = []
         elements.append(Space(d=f1))
